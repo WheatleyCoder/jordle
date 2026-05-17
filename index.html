@@ -88,9 +88,10 @@
   </div>
 
   <div id="stats-bar">
-    <span id="streak-display">Streak: 0</span>
-    <span id="max-streak-display">Max: 0</span>
-    <button id="help-btn">?</button>
+   <span id="streak-display">Streak: 0</span>
+   <span id="max-streak-display">Max: 0</span>
+   <button id="trophy-btn" title="Achievements">&#127942;</button>
+   <button id="help-btn">?</button>
   </div>
 
   <!-- Toast -->
@@ -115,10 +116,23 @@
     </div>
   </div>
 
-  <!-- Help Modal -->
-  <div id="help-overlay" class="hidden">
-    <div id="help-modal">
-      <h2>How To Play</h2>
+ <!-- Achievement Unlock Pop-ups -->
+ <div id="achievement-popups"></div>
+
+ <!-- Achievements Modal -->
+ <div id="achievements-overlay" class="hidden">
+ <div id="achievements-modal">
+  <h2>Achievements</h2>
+  <p id="achievements-count">0 / 15</p>
+  <div id="achievements-grid"></div>
+  <button id="achievements-close-btn">Close</button>
+ </div>
+ </div>
+
+ <!-- Help Modal -->
+ <div id="help-overlay" class="hidden">
+ <div id="help-modal">
+ <h2>How To Play</h2>
       <p>Guess the JORDLE in 6 tries.</p>
       <p>Every answer is a 5-letter word that starts with <strong>J</strong>.</p>
       <div class="examples">
@@ -139,6 +153,7 @@
 
 <script src="current-word.js"></script>
 <script src="wordlist.js"></script>
+<script src="achievements.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

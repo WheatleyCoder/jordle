@@ -113,6 +113,9 @@ function init() {
     document.getElementById('help-overlay').classList.remove('hidden');
     localStorage.setItem('jordle_visited', '1');
   }
+
+  // Initialize achievements system
+  initAchievements();
 }
 
 // ---- Input handling ----
@@ -209,6 +212,17 @@ function submitGuess() {
     }
     saveStats(stats);
     updateStatsBar();
+
+    // Check achievements
+    const lastEval = evaluateGuess(guess);
+    const absentInWin = won ? lastEval.filter(s => s === 'absent').length : 0;
+    checkAchievements({
+      justWon: won,
+      justLost: lost,
+      guessCount: guesses.length,
+      stats: stats,
+      absentInWin: absentInWin
+    });
 
     setTimeout(() => {
       showModal(won, guess);

@@ -1,0 +1,25 @@
+name: Daily Jordle Word Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:       # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update-word:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Rotate daily word
+        run: python3 scripts/pick_daily_word.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git diff --quiet current-word.js || (git add current-word.js && git commit -m "chore: update daily Jordle word [skip ci]" && git push)

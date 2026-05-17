@@ -58,7 +58,12 @@ function saveStats(stats) {
 
 // ---- Initialize ----
 function init() {
-  answer = getDailyWord(getTodayKey());
+  // Check if the Action-generated override matches today
+  if (typeof DAILY_WORD_OVERRIDE !== 'undefined' && typeof DAILY_WORD_DATE !== 'undefined' && DAILY_WORD_DATE === getTodayKey()) {
+    answer = DAILY_WORD_OVERRIDE;
+  } else {
+    answer = getDailyWord(getTodayKey());
+  }
   const state = loadState();
   todayKey = getTodayKey();
 
@@ -167,9 +172,11 @@ function submitGuess() {
     return;
   }
 
-  // Must be in valid word list (lenient: accept any 5-letter J-word)
-  if (!GUESS_POOL.includes(guess) && guess.length === 5 && guess[0] === 'J') {
-    // Allow any 5-letter J-word attempt even if not in our curated list
+  // Must be in valid word list
+  if (!GUESS_POOL.includes(guess)) {
+    showToast('Not in word list');
+    shakeRow(currentRow);
+    return;
   }
 
   // Evaluate

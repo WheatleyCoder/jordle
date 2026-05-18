@@ -85,8 +85,29 @@ function init() {
 
   updateStatsBar();
 
-  // Keyboard input
-  document.addEventListener('keydown', handleKeydown);
+ // Keyboard input — use hidden input trap to prevent iOS auto-zoom
+ const inputTrap = document.getElementById('input-trap');
+ document.addEventListener('keydown', handleKeydown);
+ // Keep focus on the hidden 16px input so iOS doesn't auto-zoom
+ inputTrap.addEventListener('input', () => {
+   const val = inputTrap.value;
+   inputTrap.value = '';
+   if (val && /^[a-zA-Z]$/.test(val)) handleInput(val.toUpperCase());
+ });
+ // Refocus the trap when the user taps the board area (mobile soft keyboard)
+ document.getElementById('board').addEventListener('click', () => {
+   inputTrap.focus();
+ });
+ // Prevent the trap from staying visually active
+ inputTrap.addEventListener('blur', () => {
+   // Let modals and buttons take focus naturally; otherwise re-trap after a tick
+   setTimeout(() => {
+     const active = document.activeElement;
+     if (!active || active === document.body || active.id === 'app') {
+       inputTrap.focus();
+     }
+   }, 100);
+ });
 
   // On-screen keyboard
   document.querySelectorAll('#keyboard button').forEach(btn => {

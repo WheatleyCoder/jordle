@@ -1,5 +1,25 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Prevent iOS auto-zoom: hidden input must have font-size ≥ 16px */
+#input-trap {
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  width: 1px;
+  height: 1px;
+  font-size: 16px;
+  opacity: 0;
+  border: none;
+  outline: none;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Prevent double-tap zoom on all interactive elements */
+button, [data-key] {
+  touch-action: manipulation;
+}
+
 :root {
  --correct: #538d4e;
  --present: #b59f3b;
@@ -155,7 +175,7 @@ header .subtitle {
  border-radius: 4px;
  background: var(--key-bg);
  color: var(--text);
- font-size: min(0.85rem, 3.5vw);
+ font-size: max(min(0.85rem, 3.5vw), 16px);
  font-weight: 700;
  cursor: pointer;
  text-transform: uppercase;
